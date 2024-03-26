@@ -32,10 +32,10 @@ class BlogRow extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: Theme.of(context).textTheme.titleLarge,
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 5,
                 ),
                 Text(
                   excerpt,
