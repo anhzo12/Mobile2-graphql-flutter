@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 class BlogRow extends StatelessWidget {
   final String title;
   final String excerpt;
-  final String coverURL;
+  // final String coverURL;
 
   const BlogRow({
     super.key,
     required this.title,
     required this.excerpt,
-    required this.coverURL,
+    // required this.coverURL,
   });
 
   @override
@@ -18,12 +18,12 @@ class BlogRow extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Row(
         children: [
-          Expanded(
-            flex: 1,
-            child: coverURL != null
-                ? Image.network(coverURL)
-                : const FlutterLogo(),
-          ),
+          // Expanded(
+          //   flex: 1,
+          //   child: coverURL != null
+          //       ? Image.network(coverURL)
+          //       : const FlutterLogo(),
+          // ),
           const SizedBox(width: 20),
           Expanded(
             flex: 2,
