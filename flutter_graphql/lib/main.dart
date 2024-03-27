@@ -1,8 +1,6 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/widgets.dart';
-
 import 'widgets/blog_row.dart';
 import 'widgets/add_blog.dart';
+import 'hygraph_cofig.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
@@ -11,15 +9,6 @@ void main() {
     home: MyApp(),
   ));
 }
-
-final HttpLink httpLink = HttpLink(
-    "https://api-us-west-2.hygraph.com/v2/clu7xy1tm000008jshwud8l6l/master");
-final ValueNotifier<GraphQLClient> client = ValueNotifier<GraphQLClient>(
-  GraphQLClient(
-    link: httpLink,
-    cache: GraphQLCache(),
-  ),
-);
 
 const String query = """
 query Content{
@@ -31,23 +20,11 @@ query Content{
 }
 """;
 
-const String updatePostMutation = """
-mutation updatePost{
-  updatePost(
-    where: { id: "clu9z594rembh08ltqgqj4e7k" }
-    data: { title: "dsvdvff Asaolu" }
-  ) {
-    id
-  }
-}
-""";
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
     return GraphQLProvider(
       client: client,
       child: MaterialApp(
@@ -85,10 +62,12 @@ class MyApp extends StatelessWidget {
                           itemCount: posts.length,
                           itemBuilder: (context, index) {
                             final post = posts[index];
+                            final id = post['id'];
                             final title = post['title'];
                             final excerpt = post['excerpt'];
                             // final coverImageURL = post!['coverImage']['url'];
                             return BlogRow(
+                              id: id,
                               title: title,
                               excerpt: excerpt,
                               // coverURL: coverImageURL,
@@ -96,19 +75,19 @@ class MyApp extends StatelessWidget {
                           },
                         );
                       })),
-              Mutation(
-                  options: MutationOptions(document: gql(updatePostMutation)),
-                  builder: (runMutation, result) {
-                    return TextButton(
-                      onPressed: () {
-                        runMutation({
-                          'id': 'clu9z594rembh08ltqgqj4e7k',
-                          'title': 'New Title for the Post',
-                        });
-                      },
-                      child: const Text('Update Author Name'),
-                    );
-                  })
+              //   Mutation(
+              //       options: MutationOptions(document: gql(updatePostMutation)),
+              //       builder: (runMutation, result) {
+              //         return TextButton(
+              //           onPressed: () {
+              //             runMutation({
+              //               'id': 'clu9z594rembh08ltqgqj4e7k',
+              //               'title': 'New Title for the Post',
+              //             });
+              //           },
+              //           child: const Text('Update Author Name'),
+              //         );
+              //       })
             ]),
             floatingActionButton: FloatingActionButton(
               onPressed: () {

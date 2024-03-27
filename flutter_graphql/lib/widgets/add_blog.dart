@@ -1,28 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_graphql/hygraph_cofig.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-
-final HttpLink httpLink = HttpLink(
-    "https://api-us-west-2.hygraph.com/v2/clu7xy1tm000008jshwud8l6l/master");
-final ValueNotifier<GraphQLClient> client = ValueNotifier<GraphQLClient>(
-  GraphQLClient(
-    link: httpLink,
-    cache: GraphQLCache(),
-  ),
-);
-
-// const String addPostMutation = """
-// mutation createPost(\$title: String!, \$excerpt: String!, \$date: String!) {
-//   createPost(
-//     data: {
-//       title: \$title,
-//       excerpt: \$excerpt,
-//       date: \$date
-//     }
-//   ) {
-//     id
-//   }
-// }
-// """;
 
 const String addPostMutation = """
 mutation createPost(\$title: String!, \$excerpt: String!){
@@ -92,7 +70,7 @@ class _NewPostFormState extends State<NewPostForm> {
               Mutation(
                 options: MutationOptions(document: gql(addPostMutation)),
                 builder: (runMutation, result) {
-                  return TextButton(
+                  return OutlinedButton(
                     onPressed: () {
                       final title = _titleController.text;
                       final excerpt = _excerptController.text;
