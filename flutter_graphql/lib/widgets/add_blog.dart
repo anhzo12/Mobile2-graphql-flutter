@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_graphql/hygraph_cofig.dart';
+import 'package:flutter_graphql/main.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 const String addPostMutation = """
@@ -68,7 +69,19 @@ class _NewPostFormState extends State<NewPostForm> {
               ),
               const SizedBox(height: 16.0),
               Mutation(
-                options: MutationOptions(document: gql(addPostMutation)),
+                options: MutationOptions(
+                  document: gql(addPostMutation),
+                  onError: (error) {
+                    print("Error occurred: $error");
+                  },
+                  onCompleted: (sussess) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => const MyApp()),
+                    );
+                  },
+                ),
                 builder: (runMutation, result) {
                   return OutlinedButton(
                     onPressed: () {
@@ -78,7 +91,7 @@ class _NewPostFormState extends State<NewPostForm> {
                         'title': title,
                         'excerpt': excerpt,
                       });
-                      Navigator.pop(context);
+                      // Navigator.pop(context);
                     },
                     child: const Text('Add'),
                   );

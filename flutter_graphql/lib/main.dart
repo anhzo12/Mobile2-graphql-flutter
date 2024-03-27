@@ -5,9 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 void main() {
-  runApp(const MaterialApp(
-    home: MyApp(),
-  ));
+  runApp(const MaterialApp(home: MyApp()));
 }
 
 const String query = """
@@ -20,9 +18,14 @@ query Content{
 }
 """;
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return GraphQLProvider(
@@ -37,6 +40,18 @@ class MyApp extends StatelessWidget {
               title: const Text(
                 "Hygraph Blog",
               ),
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.refresh),
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => const MyApp()),
+                    );
+                  },
+                ),
+              ],
             ),
             body: Column(children: [
               Expanded(

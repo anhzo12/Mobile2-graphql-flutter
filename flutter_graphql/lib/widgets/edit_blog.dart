@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_graphql/hygraph_cofig.dart';
+import 'package:flutter_graphql/main.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 const String updatePostMutation = """
@@ -69,7 +70,7 @@ class _EditPostFormState extends State<EditPostForm> {
             mainAxisSize: MainAxisSize.min,
             children: [
               const Text(
-                'Add Edit post',
+                'Edit post',
                 style: TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
@@ -92,8 +93,12 @@ class _EditPostFormState extends State<EditPostForm> {
                       onError: (error) {
                         print("Error occurred: $error");
                       },
-                      onCompleted: (susscess) {
-                        print("Completed occurred: $susscess");
+                      onCompleted: (sussess) {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => const MyApp()),
+                        );
                       },
                     ),
                     builder: (runMutation, result) {
@@ -106,7 +111,7 @@ class _EditPostFormState extends State<EditPostForm> {
                             'title': title,
                             'excerpt': excerpt,
                           });
-                          Navigator.pop(context);
+                          // Navigator.pop(context);
                         },
                         child: const Text('Save'),
                       );
@@ -114,14 +119,26 @@ class _EditPostFormState extends State<EditPostForm> {
                   ),
                   const SizedBox(width: 20),
                   Mutation(
-                    options: MutationOptions(document: gql(deletePostMutation)),
+                    options: MutationOptions(
+                      document: gql(deletePostMutation),
+                      onError: (error) {
+                        print("Error occurred: $error");
+                      },
+                      onCompleted: (sussess) {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => const MyApp()),
+                        );
+                      },
+                    ),
                     builder: (runMutation, result) {
                       return OutlinedButton(
                         onPressed: () {
                           runMutation({
                             'id': widget.id,
                           });
-                          Navigator.pop(context);
+                          // Navigator.pop(context);
                         },
                         child: const Text('Delete'),
                       );
